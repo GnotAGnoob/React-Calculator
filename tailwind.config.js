@@ -1,5 +1,3 @@
-const { reduceEachTrailingCommentRange } = require("typescript");
-
 function withOpacityValue(variable) {
 	return ({ opacityValue }) => {
 		if (opacityValue === undefined) {
