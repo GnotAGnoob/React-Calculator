@@ -1,0 +1,33 @@
+$spacings: (
+	4xs: 0.125,
+	3xs: 0.25,
+	2xs: 0.375,
+	xs: 0.5,
+	sm: 0.75,
+	md: 1.25,
+	lg: 2,
+	xl: 3.25,
+	2xl: 5.25,
+	3xl: 8.5,
+	4xl: 13.75,
+	5xl: 22.25,
+);
+
+$variables: ();
+$variables: map-merge(
+	$variables,
+	(
+		//UNIVERSAL VARIABLES
+		//variables for spaces
+		--space-unit: 1.5rem,
+		--page-max-width: var(--bp-2xl),
+		//VARIABLES FOR THIS SITE
+		//how big should the space for vertical text be like
+		--siblings-margin-y: var(--space-sm),
+		--siblings-margin-x: var(--space-sm),
+		--site-padding-x: var(--space-sm),
+		--section-margin-y: var(--space-lg),
+		--button-padding-x: var(--text-md),
+		--button-padding-y: var(--text-xs)
+	)
+);

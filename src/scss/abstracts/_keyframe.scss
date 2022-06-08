@@ -1,0 +1,47 @@
+@mixin keyframe($animation_name) {
+	@keyframes #{$animation_name} {
+		@content;
+	}
+}
+
+@mixin animation_slide(
+	$name,
+	$moveXStart: none,
+	$moveYStart: none,
+	$moveXEnd: none,
+	$moveYEnd: none,
+	$opacityStart: 1,
+	$opacityEnd: 1
+) {
+	@include keyframe($name) {
+		0% {
+			opacity: $opacityStart;
+			transform: translate($moveXStart, $moveYStart);
+		}
+
+		100% {
+			opacity: $opacityEnd;
+			transform: translate($moveXEnd, $moveYEnd);
+		}
+	}
+}
+
+@mixin animation_opacity($name, $from, $to) {
+	@include keyframe($name) {
+		0% {
+			opacity: $from;
+		}
+
+		100% {
+			opacity: $to;
+		}
+	}
+}
+
+@mixin animation_svg_fill($name) {
+	@include keyframe($name) {
+		0% {
+			stroke-dasharray: 0 100;
+		}
+	}
+}

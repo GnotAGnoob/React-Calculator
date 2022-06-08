@@ -1,0 +1,19 @@
+//inside header, footer, main to limit the width and stuff
+//the bg should be on header, footer, and main so it will spread wide
+.container-main {
+	max-width: var(--page-max-width);
+	width: 100%;
+	overflow-x: hidden;
+	overflow-x: clip;
+	padding-inline: var(--site-padding-x);
+	margin-inline: auto;
+}
+
+//for the whole page div
+.wrapper-main {
+	min-height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

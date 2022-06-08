@@ -1,0 +1,328 @@
+//MIGHT BE GOOD IDEA TO STRUCTURE MIXINS INTO MULTIPLE FILES
+
+/* MIXINS & EXTENDABLE Classes  for SCSS
+
+%def_smth are most used definitions for those definitions
+Extendable Class placeholder starts with %smth and are used by @include
+
+Mixins are repeating chunk of code that repeats itself but only difference
+are values
+Are used by @extend
+
+*/
+/*mixin for media queries that can be used like 
+@include min_MediaQuery(960px){
+	prikazy
+}
+*/
+//when using variables for not overlap
+@mixin min_media_query($width) {
+	//if em
+	@if (is-number($width) and index("em", unit($width)) != null) {
+		@media screen and (min-width: ($width + 0.001em)) {
+			@content;
+		}
+	} @else if (is-number($width) and index("px", unit($width)) != null) {
+		@media screen and (min-width: ($width + 1px)) {
+			@content;
+		}
+	}
+}
+
+@mixin max_media_query($width) {
+	@media screen and (max-width: $width) {
+		@content;
+	}
+}
+
+@mixin media_query($minWidth, $maxWidth) {
+	@media screen and (min-width: $minWidth) and (max-width: $maxWidth) {
+		@content;
+	}
+}
+//map usage
+@mixin min_mq($key) {
+	$size: map-get($breakpoints, $key) + 0.001em;
+
+	@include min_media_query($size) {
+		@content;
+	}
+}
+//map usage
+@mixin max_mq($key) {
+	$size: map-get($breakpoints, $key);
+
+	@include max_media_query($size) {
+		@content;
+	}
+}
+
+//for usage in mediaquery
+@mixin no_children_top_margin() {
+	& > * {
+		margin-top: 0;
+	}
+}
+
+//delete top margin from children
+%no_children_top_margin {
+	@include no_children_top_margin();
+}
+
+//for usage in mediaquery
+@mixin no_children_left_margin() {
+	& > * {
+		margin-left: 0;
+	}
+}
+
+//delete left margin from children
+%no_children_left_margin {
+	@include no_children_left_margin();
+}
+
+//for specific flex
+@mixin flex(
+	$direction: row,
+	$justify-content: space-between,
+	$align-items: center,
+	$gap: var(--siblings-margin-y)
+) {
+	@include no_children_top_margin();
+	display: flex;
+	flex-direction: $direction;
+	justify-content: $justify-content;
+	align-items: $align-items;
+	//gap: $gap;
+
+	@if $direction == row {
+		& > * + * {
+			margin-left: #{$gap};
+		}
+	} @else {
+		& > * + * {
+			margin-top: #{$gap};
+		}
+	}
+}
+
+//flex center used by extend
+%flex {
+	@include flex();
+}
+
+//resolution in width and height
+@mixin resolution($width, $height) {
+	width: $width;
+	height: $height;
+}
+
+@mixin resolution_square($size) {
+	@include resolution($size, $size);
+}
+
+//max resolution in width and height
+@mixin max_resolution($width, $height) {
+	max-width: $width;
+	max-height: $height;
+}
+
+@mixin max_resolution_square($size) {
+	@include max_resolution($size, $size);
+}
+
+//display grid
+@mixin grid-line($flow, $gap) {
+	display: grid;
+	--gap: $gap;
+	grid-auto-flow: $flow;
+	grid-gap: var(--gap);
+	gap: var(--gap);
+}
+
+//display grid
+@mixin grid($flow, $gap, $template-rows, $template-columns) {
+	@extend %no_children_margin_top;
+	display: grid;
+	grid-auto-flow: $flow;
+	--gap: $gap;
+	grid-gap: var(--gap);
+	gap: var(--gap);
+	grid-template-columns: $template-columns;
+	grid-template-rows: $template-rows;
+}
+
+//default grid
+%def_grid {
+	@extend %no_children_top_margin;
+	display: grid;
+	--gap: $gap;
+	grid-gap: var(--gap);
+	gap: var(--gap);
+	grid-auto-flow: row;
+}
+
+//border
+@mixin border($color, $thickness) {
+	border: #{$thickness} solid #{$color};
+}
+
+@mixin borderLR($color, $thickness) {
+	border-inline: #{$thickness} solid #{$color};
+}
+
+@mixin borderTB($color, $thickness) {
+	border-block: #{$thickness} solid #{$color};
+}
+
+//button with outline
+@mixin button(
+	$color,
+	$backround,
+	$color-hover,
+	$thickness,
+	$padding-vertical,
+	$padding-horizontal
+) {
+	@extend %transition;
+	padding: $padding-vertical $padding-horizontal;
+	color: $color;
+	background: $backround;
+	border: #{$thickness} solid #{$color};
+
+	&:hover {
+		background-color: $color;
+		color: $color-hover;
+	}
+}
+
+//url must have quotes ""
+@mixin background_img($url, $size, $repeat: no-repeat) {
+	background-image: url($url);
+	background-size: $size;
+	background-repeat: $repeat;
+}
+
+//url must have quotes "" file structure needed
+@mixin background_img_resp($url, $size, $repeat: no-repeat) {
+	background-image: url(("../img/desktop/"+$url));
+	background-size: $size;
+	background-repeat: $repeat;
+
+	@include max_mq(lg) {
+		background-image: url("../img/tablet/" + $url);
+	}
+
+	@include max_mq(sm) {
+		background-image: url("../img/mobile/" + $url);
+	}
+}
+
+//outline of text
+@mixin text_outline($color, $thickness) {
+	text-shadow: -#{$thickness} -#{$thickness} 0 #{$color},
+		#{$thickness} -#{$thickness} 0 #{$color},
+		-#{$thickness} #{$thickness} 0 #{$color},
+		#{$thickness} #{$thickness} 0 #{$color};
+}
+
+@mixin text_gradient($gradient) {
+	//to make sure browser support this. dont worry bout it...
+	@supports (
+		(
+				((-webkit-background-clip: text) or (background-clip: text)) and
+					(text-fill-color: transparent)
+			)
+			or ((-moz-background-clip: text) and (-moz-text-fill-color: transparent)) or
+			((-webkit-text-fill-color: transparent) and (-webkit-background-clip: text))
+	) {
+		-webkit-background-clip: text;
+		-moz-background-clip: text;
+		text-fill-color: transparent;
+		-webkit-text-fill-color: transparent;
+		-moz-text-fill-color: transparent;
+		background: $gradient;
+		background-clip: text;
+	}
+}
+
+//setup for header
+@mixin header_setup() {
+	@extend %transition;
+	position: sticky;
+	z-index: 10000;
+
+	//depends if needed
+	top: 0;
+	//top: -1px;
+}
+
+@mixin hover(
+	$property: color,
+	$clr: var(--clr-primary),
+	$hover: var(--clr-primary-300),
+	$transition: 0.2s ease-out
+) {
+	#{$property}: var(--color, $clr);
+	transition: $transition;
+
+	&:hover {
+		--color: #{$hover};
+	}
+}
+
+@mixin hover_top_line(
+	$clr: var(--clr-primary),
+	$thickness: 0.14em,
+	$top: -0.1em,
+	$transition: 0.2s ease-out,
+	$state: ":hover"
+) {
+	position: relative;
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: $top;
+		left: 0;
+		width: 100%;
+		height: $thickness;
+		background: $clr;
+		transition: $transition;
+		transform: scaleX(0%);
+	}
+
+	&#{$state}::after {
+		transform: scaleY(100%);
+	}
+}
+
+//to set all posible ways text can be realised (text-fill) when using gradients
+//and background clip
+@mixin text_color_all($text-color, $background-color) {
+	color: $text-color;
+	text-fill-color: $text-color;
+	background: $background-color;
+}
+
+@mixin svg($stroke, $fill, $width, $shape) {
+	stroke: $stroke;
+	fill: $fill;
+	stroke-width: $width;
+	stroke-linecap: $shape;
+}
+
+@mixin mask_image($url, $size, $repeat: no-repeat, $position: center) {
+	-webkit-mask-image: url($url);
+	-webkit-mask-size: $size;
+	-webkit-mask-repeat: $repeat;
+	-webkit-mask-position: $position;
+	mask-image: url($url);
+	mask-size: $size;
+	mask-repeat: $repeat;
+	mask-position: $position;
+}
+
+////////////////////////////////////
+///MIXINS USED ONLY FOR THIS SITE///
+////////////////////////////////////

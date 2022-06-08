@@ -1,0 +1,9 @@
+$variables: map-merge($variables,(
+    --1px-rem: 0.0625rem,
+    --border: var(--1px-rem) solid,
+    --border-primary-400: var(--border) var(--clr-primary-400),
+    --border-primary: var(--border) var(--clr-primary),
+    --border-bw-100: var(--border) var(--clr-bw-100),
+    --border-bw-300: var(--border) var(--clr-bw-300),
+    --border-bw-0: var(--border) var(--clr-bw-0)
+));

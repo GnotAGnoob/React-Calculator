@@ -1,0 +1,73 @@
+@include animation_slide(slide-in-up, 0, 50%, none, none, 0);
+@include animation_slide(slide-in-down, 0, -50%, none, none, 0);
+@include animation_slide(slide-in-right, -50%, 0, none, none, 0);
+@include animation_slide(slide-in-left, 50%, 0, none, none, 0);
+
+//kk so that it wont actually change it
+@include animation_slide(move-left, 0, 0, -50%, 0, null, null);
+
+@include animation_slide(
+	move-up-md,
+	0,
+	calc(-1 * var(--space-md)),
+	0,
+	var(--space-md),
+	dont,
+	dont
+);
+
+//opacity animations big numbers so that opacity stays longer in each state
+@include animation_opacity(animation-opacity, 10, -5);
+@include animation_opacity(fade-in, 0, 1);
+
+//svg animation
+@include animation_svg_fill(svg-fill);
+
+//kills all animations and transitions for people that
+//have set in their preferences motion to reduced
+@media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		-webkit-animation-delay: -1ms !important;
+		animation-delay: -1ms !important;
+		-webkit-animation-duration: 1ms !important;
+		animation-duration: 1ms !important;
+		-webkit-animation-iteration-count: 1 !important;
+		animation-iteration-count: 1 !important;
+		background-attachment: initial !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0s !important;
+		transition-delay: 0s !important;
+	}
+}
+
+// Animations classes utilities
+// ----------
+
+.slide-in-up {
+	-webkit-animation-name: slide-in-up;
+	animation-name: slide-in-up;
+}
+
+.slide-in-down {
+	-webkit-animation-name: slide-in-down;
+	animation-name: slide-in-down;
+}
+
+.slide-in-right {
+	-webkit-animation-name: slide-in-right;
+	animation-name: slide-in-right;
+}
+
+.slide-in-left {
+	-webkit-animation-name: slide-in-left;
+	animation-name: slide-in-left;
+}
+
+.fade-in {
+	-webkit-animation-name: fade-in;
+	animation-name: fade-in;
+}
+
+//Site specific

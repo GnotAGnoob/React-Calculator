@@ -1,0 +1,13 @@
+//in 1 column on mobile but in a row on dekstop
+.grid-resp {
+	@include grid-line(row, var(--_gap, var(--space-xl)));
+	align-items: center;
+
+	@include min_mq($responsiveness) {
+		@include grid-line(column, var(--_gap));
+		grid-auto-columns: 1fr;
+		width: 100%;
+		justify-content: space-between;
+		justify-items: center;
+	}
+}

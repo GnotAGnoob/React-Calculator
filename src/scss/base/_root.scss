@@ -1,0 +1,147 @@
+@use "sass:math";
+@use "sass:string";
+
+/////////// POMOCNE FUNKCE //////////////
+
+// convert string to number
+@function number($string) {
+	// Matrices
+	$strings: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "a" "b" "c" "d" "e" "f";
+	$numbers: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15;
+
+	// Result
+	$result: 0;
+
+	// Looping through all characters
+	@for $i from 1 through str-length($string) {
+		$character: str-slice($string, $i, $i);
+		$index: index($strings, $character);
+
+		@if not $index {
+			@return false;
+		}
+
+		$number: nth($numbers, $index);
+		$result: $result * 10 + $number;
+	}
+
+	@return $result;
+}
+
+@function separateColor($color) {
+	//converting for tailwind usage
+	$color-convert: quote($color);
+	$length: str-length($color-convert);
+	$lightness: number(str-slice($color-convert, $length - 3, $length - 3)) * 16 + number(str-slice($color-convert, $length - 2, $length - 2));
+	$saturation: number(str-slice($color-convert, $length - 5, $length - 5)) * 16 + number(str-slice($color-convert, $length - 4, $length - 4));
+	$hue: number(str-slice($color-convert, $length - 7, $length - 7)) * 16 +
+	number(str-slice($color-convert, $length - 6, $length - 6));
+
+	@return $hue, $saturation, $lightness;
+}
+
+//////// Declaration of variables ////////
+
+:root {
+	//BREAKPOINTS DECLARATION
+	@each $bp, $val in $breakpoints {
+		--bp-#{$bp}: #{$val};
+	}
+
+
+	//COLOR DECLARATION
+	@each $type, $values in $colors {
+		$values-length: length($values);
+		$max-value: 10;
+
+		//if the primary, slate is less than 10
+		//meaning it does not have defined range from 50-900
+		@if $values-length < $max-value {
+			$keys: map-keys($values);
+			//declaration of the first color
+			$first-key: nth($keys, 1);
+			$first-color: map-get($values, $first-key);
+			--clr-#{""+$type}-#{""+$first-key}: #{$first-color};
+
+			// $hsl: separateColor($first-color + "");
+			// //declaration for tailwind
+			// --clr-#{""+$type}-#{""+$first-key}-hsl: #{nth($hsl, 1)}
+			// 	#{nth($hsl, 2)}
+			// 	#{nth($hsl, 3)};
+
+			@for $i from 1 to $values-length {
+				$from-key: nth($keys, $i);
+				$to-key: nth($keys, $i + 1);
+				$color-from: map-get($values, $from-key);
+				$color-to: map-get($values, $to-key);
+
+				$from: floor(calc($from-key / 100));
+				$to: calc($to-key / 100);
+				//how many colors need to be declared
+				//+1 so that it declares the end number too
+				$gap-between: calc((nth($to, 1) - nth($from, 1)) + 1);
+
+				//goes through gaps in declaration and fills them
+				@for $j from 1 to $gap-between {
+					//-1 cuz actually declaring one less color
+					//linear
+					//$mix-amount: calc($j/($gap-between - 1) * 100);
+
+					//EASE IN
+					//exponent dependant on amount of defined colors
+					$exponent: calc(1 + (math.pow($values-length, 2) / 6));
+					//ease in function
+					$mix-amount: math.pow($j + $from, $exponent);
+					//normalizing and converting to %
+					$mix-amount: calc(
+						$mix-amount / math.pow($gap-between - 1 + $from, $exponent) * 100
+					);
+
+					//first mix should not be 0, cuz that should be already declared
+					$clr-mix: mix($color-to, $color-from, $mix-amount);
+					//declaration of color variables
+					--clr-#{""+$type}-#{""+($from + $j) * 100}: #{$clr-mix};
+
+					// $hsl: separateColor($clr-mix + "");
+					// //usage in tailwind
+					// --clr-#{""+$type}-#{""+($from + $j) * 100}-hsl: #{nth($hsl, 1)}
+					// 	#{nth($hsl, 2)}
+					// 	#{nth($hsl, 3)};
+				}
+			}
+		} @else {
+			@each $value, $color in $values {
+				--clr-#{""+$type}-#{""+$value}: #{$color};
+
+				// $hsl: separateColor($color + "");
+				// //declaration for tailwind
+				// --clr-#{""+$type}-#{""+$value}-hsl: #{nth($hsl, 1)}
+				// 	#{nth($hsl, 2)}
+				// 	#{nth($hsl, 3)};
+			}
+		}
+	}
+
+	//SPACING DECLARATION
+	@each $space, $val in $spacings {
+		--space-#{$space}: calc(#{$val} * var(--space-unit));
+	}
+
+	//FONT SIZES DECLARATION
+	@for $i from 1 through length($spacings) {
+		$value: nth(nth($spacings, $i), 1);
+		$calc: 0;
+		@if $i == 1 {
+			$calc: var(--text-base-size);
+		} @else {
+			$value-prev: nth(nth($spacings, $i - 1), 1);
+			$calc: calc(var(--text-#{$value-prev}) * var(--text-scale-ratio));
+		}
+		--text-#{$value}: #{$calc};
+	}
+
+	//DECLARE ALL OTHER VARIABLES
+	@each $var, $val in $variables {
+		#{$var}: #{$val};
+	}
+}

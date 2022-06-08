@@ -1,0 +1,39 @@
+//general/global css
+
+body {
+	background: linear-gradient(90deg, #0b748f, #1bc368);
+	min-height: 100vh;
+}
+
+//shows when selecting text with mouse
+::selection {
+	@include text_color_all(var(--clr-secondary), var(--clr-primary-400));
+	fill: var(--clr-secondary);
+}
+
+mark {
+	font-weight: 700;
+}
+
+.anchor {
+	display: block;
+	position: relative;
+	visibility: hidden;
+	margin: 0;
+}
+
+#root {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+/*google translate*/
+/*
+#google_translate_element2 {display:none!important;}
+#gtranslate-2 {display:none !important;}
+#goog-gt-tt {display:none !important;}
+.goog-te-banner-frame {display:none !important;}
+.goog-te-menu-value:hover {text-decoration:none !important;}
+.goog-text-highlight {background-color:transparent !important;box-shadow:none !important;}*/

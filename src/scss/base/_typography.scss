@@ -1,0 +1,71 @@
+* {
+	color: white;
+}
+
+body,
+button,
+textarea {
+	font-family: var(--font-primary);
+	font-weight: normal;
+	color: var(--text-primary);
+	letter-spacing: 0.075em;
+}
+
+//max width for any text 60character
+h1,
+h2,
+h3,
+h4,
+p,
+a {
+	max-width: 65ch;
+}
+
+h2 {
+	text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+	font-family: var(--font-secondary);
+	font-weight: bold;
+}
+
+p,
+li,
+input,
+label,
+textarea {
+	font-size: var(--p-size);
+}
+
+a,
+button {
+	font-size: var(--a-size);
+	font-weight: 500;
+}
+
+a {
+	@include hover($hover: var(--clr-primary-200));
+}
+
+h1 {
+	font-size: var(--h1-size);
+}
+
+h2 {
+	font-size: var(--h2-size);
+}
+
+h3 {
+	font-size: var(--h2-size);
+}
+
+h4 {
+	font-size: var(--h2-size);
+}

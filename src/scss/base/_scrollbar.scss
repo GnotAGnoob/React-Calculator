@@ -1,0 +1,70 @@
+/*::-webkit-scrollbar {
+	width: 1rem;
+	height: 0.5rem;
+	background: var(--clr-primary-100);
+	//border: var(--clr-primary-300) .1rem solid;
+}
+
+::-webkit-scrollbar-track {
+	//@include margin_y(.1rem);
+	//background-color: yellow;
+}
+
+//when there is both vertical and horizontal scroll
+::-webkit-scrollbar-corner {
+	background: var(--clr-primary-400);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--clr-primary-300);
+	//border: .15rem solid var(--clr-primary-200);
+	//border-radius: .2rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--clr-primary-400);
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: var(--clr-primary-600);
+}
+
+//BUTTONS
+
+/* Buttons */
+/*::-webkit-scrollbar-button:single-button {
+    //background-color: var(--clr-primary-300);
+    display: block;
+    background-size: 10px;
+    background-repeat: no-repeat;
+  }
+
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+    border-width: 8px 8px 8px 8px;
+    border-color: transparent transparent yellow transparent;
+  }
+  
+  ::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+    border-color: transparent transparent #777777 transparent;
+  }
+  /* Down */
+/*::-webkit-scrollbar-button:single-button:vertical:increment {
+    border-width: 8px 8px 0 8px;
+    border-color: #555555 transparent transparent transparent;
+  }
+  
+  ::-webkit-scrollbar-button:vertical:single-button:increment:hover {
+    border-color: #777777 transparent transparent transparent;
+  }*/
+
+/*::-webkit-resizer{
+}*/
+
+//BROWSER SUPPORT (firefox)
+/*@supports (scrollbar-color: red yellow) {
+	* {
+		scrollbar-color: var(--clr-primary-300) var(--clr-primary-100);
+		//scrollbar-width: thin;
+	}
+}
+*/

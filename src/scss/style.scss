@@ -1,0 +1,22 @@
+@import "abstracts/breakpoint", "abstracts/spacing", "abstracts/font",
+	"abstracts/color", "abstracts/mixin", "abstracts/keyframe",
+	"abstracts/animation", "abstracts/other-variable";
+
+@import "themes/theme";
+
+@tailwind base;
+
+@import "base/root", "base/reset", "base/font-face", "base/typography",
+	"base/base", "base/scrollbar", "base/scaling";
+
+@tailwind components;
+@tailwind utilities;
+
+@import "components/buttons-inputs", "components/cards", "components/others",
+	"components/slider";
+
+@import "layouts/header", "layouts/footer", "layouts/layouts";
+
+@import "utilities/spacing", "utilities/flex", "utilities/grid",
+	"utilities/visibility", "utilities/visual", "utilities/container",
+	"utilities/other", "utilities/animation";

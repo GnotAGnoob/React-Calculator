@@ -1,0 +1,34 @@
+/*no divs and stuff
+.own-slider{
+    overflow-x: hidden;
+    width: 100%;
+
+    & > div {
+        display: flex;
+
+        & > article {
+            width: 100%;
+            min-width: 100%;
+            margin: 0;
+            //have to be on both sides
+            margin-inline: (var(--space-xxl));
+        }
+    }
+
+    &.own-vertical-slider{
+
+        & > div {
+            flex-direction: column;
+    
+            & > article {
+                margin: 0;
+                //have to be on both sides
+                margin-block: (var(--space-xxl));
+            }
+        }
+    }
+}
+
+.slider-transition{
+    transition: transform .75s ease-out;
+}*/

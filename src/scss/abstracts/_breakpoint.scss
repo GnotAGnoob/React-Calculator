@@ -1,0 +1,20 @@
+$breakpoints: (
+	xs: 28.75em,
+	//460
+	sm: 41.25em,
+	//660
+	md: 60em,
+	//960
+	lg: 75em,
+	//1200
+	xl: 100em,
+	//1600
+	2xl: 125em //2000,,,
+);
+
+@function breakpoint($key) {
+	@return map-get($breakpoints, $key);
+}
+
+//main breakpoint
+$responsiveness: md;

@@ -1,0 +1,70 @@
+$variables: map-merge(
+	$variables,
+	(
+		--animation-slide-function: cubic-bezier(0.4, 0, 0.2, 1),
+		--animation-slide-duration: 1s,
+		--transition-roadmap-duration: 2s,
+	)
+);
+
+//SASS VARIABLES//
+//bezier curves for custom animation
+$bezier-ease-in-out-slow: cubic-bezier(0.3, 0, 0.7, 1);
+$bezier-ease-in-out-slow-2: cubic-bezier(0.4, 0, 0.6, 1);
+
+//transition with precise time
+@mixin transition($seconds) {
+	transition: (($seconds) + s) ease-out;
+}
+
+//default transition i use all the time
+%transition {
+	transition: 0.2s ease-out;
+}
+
+@mixin animation(
+	$animation,
+	$duration,
+	$delay,
+	$function,
+	$iteration: infinite,
+	$direction: normal,
+	$fillmode: none
+) {
+	-webkit-animation-delay: $delay;
+	-webkit-animation-duration: $duration;
+	-webkit-animation-name: $animation;
+	-webkit-animation-timing-function: $function;
+	-webkit-animation-iteration-count: $iteration;
+	-webkit-animation-fill-mode: $fillmode;
+	-webkit-animation-direction: $direction;
+
+	-moz-animation-delay: $delay;
+	-moz-animation-duration: $duration;
+	-moz-animation-name: $animation;
+	-moz-animation-timing-function: $function;
+	-moz-animation-iteration-count: $iteration;
+	-moz-animation-fill-mode: $fillmode;
+	-moz-animation-direction: $direction;
+
+	animation-delay: $delay;
+	animation-duration: $duration;
+	animation-name: $animation;
+	animation-timing-function: $function;
+	animation-iteration-count: $iteration;
+	animation-fill-mode: $fillmode;
+	animation-direction: $direction;
+}
+
+//usage in main scss
+@mixin animation_infinite($name, $speed, $function: ease-in-out, $delay: 0) {
+	@include animation(
+		$name,
+		$speed,
+		$delay,
+		$function,
+		infinite,
+		alternate,
+		none
+	);
+}

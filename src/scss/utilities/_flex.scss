@@ -1,0 +1,10 @@
+//on mobile in column, on desktop in row
+.flex-resp {
+	@include max_mq($responsiveness) {
+		@include flex(column, flex-start, flex-start);
+	}
+
+	@include min_mq($responsiveness) {
+		@include flex(row, space-between, center, var(--siblings-x-margin));
+	}
+}

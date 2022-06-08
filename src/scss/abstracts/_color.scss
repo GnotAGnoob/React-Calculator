@@ -1,0 +1,65 @@
+//1) YOU SHOULD NOT USE THESE COLORS DIRECTLY, OWN VARIABLES
+//ARE DECLARED IN THEME SECTION!! AND USE THOSE INSTEAD, reason is easier theming theming.
+
+//2) if you have only 2 or more values the sass function in root
+//will automatically generate between colors gradually
+//so put the whitest as 50 and darkest as 900 and the mid as 500
+//for the best results and time savings use 3 variables
+
+//3) use slate instead of gray unless some reason
+
+$colors: (
+	primary: (
+		50: hsl(210, 40%, 98%),
+		500: hsla(203, 69%, 40%),
+		900: hsl(222, 46%, 11%),
+	),
+	secondary: (
+		50: hsla(210, 40%, 98%),
+		100: hsla(210, 40%, 96%),
+		200: hsla(214, 32%, 91%),
+		300: hsla(213, 27%, 84%),
+		400: hsla(200, 64%, 50%),
+		500: hsla(203, 69%, 40%),
+		600: hsla(216, 75%, 28%),
+		700: hsla(215, 25%, 27%),
+		800: hsla(217, 33%, 17%),
+		900: hsla(222, 47%, 11%),
+	),
+	accent-1: (
+		50: hsla(210, 40%, 98%),
+		100: hsla(210, 40%, 96%),
+		200: hsla(214, 32%, 91%),
+		300: hsla(213, 27%, 84%),
+		400: hsla(200, 64%, 50%),
+		500: hsla(203, 69%, 40%),
+		600: hsla(216, 75%, 28%),
+		700: hsla(215, 25%, 27%),
+		800: hsla(217, 33%, 17%),
+		900: hsla(222, 47%, 11%),
+	),
+	slate: (
+		50: hsla(210, 40%, 98%),
+		100: hsla(210, 40%, 96%),
+		200: hsla(214, 32%, 91%),
+		300: hsla(213, 27%, 84%),
+		400: hsla(215, 20%, 65%),
+		500: hsla(215, 16%, 47%),
+		600: hsla(215, 19%, 35%),
+		700: hsla(215, 25%, 27%),
+		800: hsla(217, 33%, 17%),
+		900: hsla(222, 47%, 11%),
+	),
+	gray: (
+		50: hsla(210, 20%, 98%),
+		100: hsla(220, 14%, 96%),
+		200: hsla(220, 13%, 91%),
+		300: hsla(216, 12%, 84%),
+		400: hsla(218, 11%, 65%),
+		500: hsla(220, 9%, 46%),
+		600: hsla(215, 14%, 34%),
+		700: hsla(217, 19%, 27%),
+		800: hsla(215, 28%, 17%),
+		900: hsla(221, 39%, 11%),
+	),
+);

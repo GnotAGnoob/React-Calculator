@@ -1,0 +1,129 @@
+//SCSS for reseting html formatting
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+body {
+	@include flex(column, space-between, center);
+	font-family: arial;
+	overflow-y: hidden;
+	overflow-y: clip;
+	margin: 0;
+}
+
+html,
+body,
+ul,
+ol,
+li,
+form,
+fieldset,
+legend {
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin-bottom: 0;
+	line-break: auto;
+}
+
+fieldset,
+img {
+	border: 0;
+}
+li {
+	list-style: none;
+}
+
+html {
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+	overflow-x: clip;
+	overflow-y: auto;
+	margin: 0;
+}
+
+.wrapper {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 0;
+	box-sizing: border-box;
+}
+
+section {
+	border: none;
+}
+
+a {
+	@extend %transition;
+	text-decoration: none;
+	line-break: auto;
+
+	&[disabled] {
+		cursor: default;
+		opacity: 0.5;
+	}
+}
+
+*:first-child {
+	margin-top: 0;
+}
+
+details summary::-webkit-details-marker {
+	display: none;
+}
+
+details > summary {
+	list-style: none;
+}
+
+div {
+	box-sizing: border-box;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+input {
+	border: none;
+	background: none;
+	min-width: 5ch;
+}
+
+img,
+video {
+	max-height: 100%;
+	max-width: calc(var(--space-xxxxl));
+	width: 100%;
+}
+
+button {
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+svg {
+	fill: currentcolor;
+}
+
+mark {
+	background: none;
+}
