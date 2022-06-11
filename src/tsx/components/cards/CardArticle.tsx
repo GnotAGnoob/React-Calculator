@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { Card } from "./Card";
 import { DataArticles } from "../../data/DataArticles";
 
-export const CardArticle: FunctionComponent<DataArticles> = (props) => {
+type CardArticleProps = Omit<DataArticles, "comments" | "databaseId">;
+
+export const CardArticle: FunctionComponent<CardArticleProps> = (props) => {
 	return (
 		<Link className="hover:scale-105 transition-transform" to={"./" + props.id}>
 			<Card className="h-full">

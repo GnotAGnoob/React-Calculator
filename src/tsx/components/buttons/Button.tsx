@@ -8,6 +8,7 @@ export interface ButtonPropsInherit {
 }
 
 interface ButtonProps {
+	type?: "button" | "submit" | "reset" | undefined;
 	onClick?: React.MouseEventHandler<HTMLElement>;
 	className?: string;
 	children?: React.ReactNode;
@@ -16,7 +17,7 @@ interface ButtonProps {
 export const Button: FunctionComponent<ButtonProps> = (props) => {
 	return (
 		<button
-			type="button"
+			type={props.type ? props.type : "button"}
 			className={`bg-slate-200/60 hover:bg-cyan-400/60 transition ${
 				props.className || ""
 			}`}

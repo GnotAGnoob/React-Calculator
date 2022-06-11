@@ -58,7 +58,16 @@ export const Articles: FunctionComponent = () => {
 
 		filteredArticles.current = preload(articles);
 		setShowArticles(unsortedArticles);
+		document.title = "Articles";
 	}, [articles]);
+
+	if (showArticles) {
+		document.title = `Articles${
+			showArticles?.category !== "unsorted"
+				? ` sorted by ${showArticles?.category}`
+				: ""
+		}`;
+	}
 
 	//ONCLICK
 	const filterArticles = (e: inputCheck) => {
@@ -114,7 +123,7 @@ export const Articles: FunctionComponent = () => {
 				{showArticles.articles.map((article) => {
 					return (
 						<CardArticle
-							key={article.id}
+							key={article.databaseId + article.id}
 							id={article.id}
 							img={article.img}
 							alt={article.alt}

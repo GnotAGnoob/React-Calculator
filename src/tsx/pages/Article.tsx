@@ -1,16 +1,30 @@
-import { FunctionComponent, useContext, useEffect, useState } from "react";
+import {
+	createContext,
+	FunctionComponent,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import { useParams } from "react-router-dom";
-import { DataArticlesContext } from "../data/DataArticles";
+import { Comments, DataComments } from "../components/Comments";
+import { FormComment } from "../components/forms/FormComment";
+import { DataArticles, DataArticlesContext } from "../data/DataArticles";
 
 export const Article: FunctionComponent = () => {
 	const [userId, setUserId] = useState<number | undefined>();
+
 	const { id } = useParams();
-	const { articles, loadingError } = useContext(DataArticlesContext);
+	const { articles, setArticles, loadingError } =
+		useContext(DataArticlesContext);
 
 	useEffect(() => {
+		console.log("useEffect");
 		if (!id) return;
-		setUserId(parseInt(id));
-	}, []);
+		const parsedId = parseInt(id);
+		setUserId(parsedId);
+		if (!articles[parsedId]) return;
+		document.title = "Article - " + articles[parsedId].title;
+	}, [articles]);
 
 	if (loadingError != "") {
 		return <h1>{loadingError}</h1>;
@@ -20,10 +34,17 @@ export const Article: FunctionComponent = () => {
 		return <></>;
 	}
 
+	const updateArticles = (comment: DataComments): void => {
+		const newArticles = [...articles];
+		newArticles[userId].comments.push(comment);
+		setArticles(newArticles);
+	};
+
 	return (
 		<article className="flex flex-col flex-wrap max-w-2xl h-full">
 			<section>
 				<img
+					loading="lazy"
 					className="max-h-96 object-cover"
 					src={articles[userId].img}
 					alt={articles[userId].alt}
@@ -33,59 +54,24 @@ export const Article: FunctionComponent = () => {
 					<h3 className="text-base">{articles[userId].category || "other"}</h3>
 					<p className="mt-6">{`${articles[userId].description}`}</p>
 				</div>
-				<footer>
+				{/*<footer className="flex gap-7">
 					<p>
 						<label>
-							<input type="checkbox" name="liked" /> Likes
+							<input className="text-sm" type="checkbox" name="liked" /> Likes
 						</label>
 					</p>
-					<p>
-						<a href="#comments">35 komentaru</a>
-					</p>
-				</footer>
+					<a className="font-bold text-sm" href="./#comments">
+						35 comments
+					</a>
+	</footer>*/}
 			</section>
 
-			<section id="comments">
-				<h2>Komentáře</h2>
-				<form>
-					<label htmlFor="comments_input">Zanechte komentář</label>
-					<textarea
-						id="comments_input"
-						name="comment"
-						rows={4}
-						placeholder="Komentář..."
-					></textarea>
-					<input type="submit" value="Odeslat" />
-				</form>
-				<article>
-					<header>
-						<p>Miroslav Steiner</p>
-						<span>-</span>
-						<p>
-							<time dateTime="2021-11-11T04:30">55 minutes ago</time>
-						</p>
-					</header>
-					<p>
-						Velmi podobný stroj vyráběli Ukrajinci ještě snad 40 roků po českém A38.
-						Antonov 2 byl ideální dopravní prostředek v zemi s velmi řídkou dopravní
-						strukturou. V ČR by se uplatnil i dnes a u nás, jeho malá cestovní
-						rychlost je výhodou při přistávání třeba na venkovských letištích, na
-						každé louce. Při požárech nebo velkých nehodách může také nahradit
-						vrtulník, zejména při dopravě zraněných nebo lékařských zařízení. Vozit
-						pacienty by zvládl po několika najednou, náklady by byly nepochybně nižší.
-					</p>
-					<footer>
-						<p>
-							<label>
-								<input type="checkbox" />
-							</label>
-						</p>
-
-						<button aria-label="Odpovědět na komentář" type="button">
-							Odpovědět
-						</button>
-					</footer>
-				</article>
+			<section id="comments" className="mt-10">
+				<h2 className="my-5">Comments</h2>
+				<FormComment article={articles[userId]} updateArticles={updateArticles} />
+				<div className="pt-4">
+					<Comments comments={articles[userId].comments} />
+				</div>
 			</section>
 		</article>
 	);

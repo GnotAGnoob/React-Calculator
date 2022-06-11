@@ -1,4 +1,4 @@
-import { FunctionComponent, Reducer, useReducer } from "react";
+import { FunctionComponent, Reducer, useEffect, useReducer } from "react";
 import { ButtonSpecial } from "../components/calculator/ButtonSpecial";
 import { ButtonDigit } from "../components/calculator/ButtonDigit";
 import { ButtonOperation } from "../components/calculator/ButtonOperation";
@@ -116,7 +116,6 @@ const reducer = (
 				current: calculate(state),
 			};
 	}
-	return state;
 };
 
 const calculate = (state: CalculatorState): string => {
@@ -141,12 +140,18 @@ const formatNumber = (number: string | number | null): string | null => {
 	return `${INTEGER_FORMATTER.format(parseFloat(integer + ""))}.${decimal}`;
 };
 
+//START OF CALCULATOR
 export const Calculator: FunctionComponent = () => {
 	//cuz of typescript, it is needed to define default state
 	const [{ current, previous, operation }, dispatch] = useReducer(
 		reducer,
 		emptyState
 	);
+
+	//effect that changes page title
+	useEffect(() => {
+		document.title = "Calculator - dont do math!";
+	}, []);
 
 	return (
 		<div className="grid grid-cols-[repeat(4,6rem)] grid-rows-[minmax(8rem,auto)_repeat(5,6rem)] gap-1 text-slate-200 text-3xl bg-slate-400/80">

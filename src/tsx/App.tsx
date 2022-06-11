@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { Header } from "./common/Header";
 import { Calculator } from "./pages/Calculator";
 import { FunctionComponent } from "react";
@@ -12,7 +12,8 @@ import { Footer } from "./common/Footer";
 export const App: FunctionComponent = () => {
 	return (
 		<React.StrictMode>
-			<BrowserRouter>
+			{/* Hashrouter is used cuz of github pages, but in real product use browserrouter */}
+			<HashRouter>
 				<Header />
 				<main className="flex flex-column justify-center mt-36 mb-40 ">
 					<Routes>
@@ -24,7 +25,7 @@ export const App: FunctionComponent = () => {
 					</Routes>
 				</main>
 				<Footer />
-			</BrowserRouter>
+			</HashRouter>
 		</React.StrictMode>
 	);
 };

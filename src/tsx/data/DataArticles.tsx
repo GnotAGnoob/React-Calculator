@@ -1,12 +1,16 @@
 import { createContext, FunctionComponent, useEffect, useState } from "react";
+import { DataComments } from "../components/Comments";
+import { firebaseURL as databaseURL } from "./DataURL";
 
 export interface DataArticles {
 	id: string;
+	databaseId: string;
 	img: string;
 	category?: string;
 	alt: string;
 	title: string;
 	description: string;
+	comments: DataComments[];
 }
 
 interface DataArticlesProps {
@@ -15,6 +19,9 @@ interface DataArticlesProps {
 
 export const DataArticlesContext = createContext({
 	articles: [] as DataArticles[],
+	setArticles: function () {} as React.Dispatch<
+		React.SetStateAction<DataArticles[]>
+	>,
 	loadingError: "",
 });
 
@@ -29,22 +36,36 @@ const loadArticles = async ({
 	setIsError,
 	setArticles,
 }: LoadArticles): Promise<void> => {
-	const getData = await fetch(
-		"https://reactpractice-5fc65-default-rtdb.europe-west1.firebasedatabase.app/articles.json",
-		{
-			method: "GET",
-			headers: { "Content-Type": "application/json" },
-		}
-	);
+	const getData = await fetch(databaseURL + ".json", {
+		method: "GET",
+		headers: { "Content-Type": "application/json" },
+	});
 
 	const data = await getData.json();
 	const transformedData: DataArticles[] = [];
 
 	for (const key in data) {
 		for (const key2 in data[key]) {
+			const dataComments = data[key][key2].comments;
+			const transformedComments: DataComments[] = [];
+
+			for (const key in dataComments) {
+				for (const key2 in dataComments[key]) {
+					const comment = {
+						...dataComments[key][key2],
+						commentId: key + dataComments[key].id,
+						date: new Date(dataComments[key][key2].date),
+					};
+
+					transformedComments.push(comment);
+				}
+			}
+
 			const article = {
-				id: key2,
 				...data[key][key2],
+				databaseId: key,
+				id: key2,
+				comments: transformedComments,
 			};
 
 			transformedData.push(article);
@@ -82,6 +103,7 @@ export const DataArticlesContextProvider: FunctionComponent<
 
 	const articlesContext = {
 		articles: articles,
+		setArticles: setArticles,
 		loadingError: loadingError(isLoading, isError),
 	};
 
