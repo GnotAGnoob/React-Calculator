@@ -32,7 +32,6 @@ export const ArticleImage = (props: ImageProps) => {
 			style={{ height: imageHeight }}
 		>
 			<img
-				loading="lazy"
 				className={` object-cover ${props.className}`}
 				src={src}
 				alt={props.alt}
