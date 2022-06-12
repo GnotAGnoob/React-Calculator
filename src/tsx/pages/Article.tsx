@@ -3,9 +3,11 @@ import {
 	FunctionComponent,
 	useContext,
 	useEffect,
+	useRef,
 	useState,
 } from "react";
 import { useParams } from "react-router-dom";
+import { ArticleImage } from "../components/ArticleImage";
 import { Comments, DataComments } from "../components/Comments";
 import { FormComment } from "../components/forms/FormComment";
 import { DataArticles, DataArticlesContext } from "../data/DataArticles";
@@ -18,7 +20,6 @@ export const Article: FunctionComponent = () => {
 		useContext(DataArticlesContext);
 
 	useEffect(() => {
-		console.log("useEffect");
 		if (!id) return;
 		const parsedId = parseInt(id);
 		setUserId(parsedId);
@@ -43,12 +44,10 @@ export const Article: FunctionComponent = () => {
 	return (
 		<article className="flex flex-col flex-wrap max-w-2xl h-full">
 			<section>
-				<img
-					loading="lazy"
-					className="max-h-96 object-cover"
+				<ArticleImage
 					src={articles[userId].img}
 					alt={articles[userId].alt}
-				/>
+				></ArticleImage>
 				<div className="flex flex-col flex-1 pt-10 pb-10 px-8">
 					<h2 className="leading-tight">{articles[userId].title}</h2>
 					<h3 className="text-base">{articles[userId].category || "other"}</h3>
