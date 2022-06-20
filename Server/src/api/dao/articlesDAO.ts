@@ -1,49 +1,31 @@
-let articles: any;
+import { Collection, Document, FindCursor, MongoClient, WithId } from "mongodb";
+import DAO, { IDAOGet } from "./DAO";
+
+export type TFilters = { category?: string };
+
+let articles: Collection<Document>;
 
 export default class ArticlesDAO {
-	static async injectDB(conn: any) {
+	// connects to the database
+	static async injectDB(conn: MongoClient) {
 		if (articles) {
 			return articles;
 		}
-		try {
-			articles = await conn.db(process.env.ARTICLES_NS).collection("Articles");
-		} catch (e) {
-			throw e;
-		}
+		articles = await DAO.injectDB(conn, "Articles");
 	}
 
-	static async getArticles({
-		filters = null,
-		page = 0,
-		articlesPerPage = 10,
-	}: any) {
-		let query;
-		if (filters) {
-			if ("category" in filters) {
-				query = { category: filters.category };
-			}
-		}
-
-		let cursor: any;
-
-		try {
-			// cursor = await articles
-			// 	.find(query)
-			// 	.skip(page * articlesPerPage)
-			// 	.limit(articlesPerPage);
-			cursor = await articles.find(query);
-		} catch (e) {
-			console.error(`Unable to query articles: ${e}`);
-			return { articlesList: [], totalArticles: 0 };
+	// gets the articles from the database and returns them
+	static async getArticles(options: IDAOGet) {
+		let filter = {};
+		if (options.filters?.category) {
+			filter = { category: options.filters.category };
 		}
 
 		try {
-			const totalArticles = page === (await articles.countDocuments(query));
-			const articlesList = await cursor.toArray();
-			return { articlesList, totalArticles };
+			return await DAO.getArticles({ ...options, filters: filter }, articles);
 		} catch (e) {
 			console.error(`Unable to get articles: ${e}`);
-			return { articlesList: [], totalArticles: 0 };
+			return { resultsList: [], totalResults: 0 };
 		}
 	}
 }
